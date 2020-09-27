@@ -16,7 +16,7 @@
 #include <FL/Fl_Value_Input.H>
 #include <FL/Fl_Tabs.H>
 #include "GraphWindowDraw3D.h"
-//#include "GraphWindowDraw2D.h"
+#include "GraphWindowDraw2D.h"
 
 #define DIR_IN "./input/"
 #define DIR_OUT "./output/"
@@ -31,7 +31,7 @@ class ControlPanel : public Fl_Window
 {
 public:
 	GraphWindowDraw3D *gwin;
-	//GraphWindowDraw2D *gwin_cp;
+	GraphWindowDraw2D *gwin_cp;
 	scandata *sd;
 
 	ControlPanel(int X, int Y, int W, int H, GraphWindowDraw3D *_gwin );

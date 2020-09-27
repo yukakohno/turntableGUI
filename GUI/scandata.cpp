@@ -32,10 +32,10 @@ int scandata::load(std::string fname)
 	for (int i = 0; i < linecnt; i++) {
 		lineangle[i] = 2.0 * M_PI * (double)i / (double)linecnt;
 	}
-	lineangv[0] = 0;
 	for (int i = 1; i < linecnt; i++) {
 		lineangv[i] = lineangle[i] - lineangle[i-1];
 	}
+	lineangv[0] = lineangle[0] - lineangle[linecnt - 1] + 2.0*M_PI;
 	for (int i = 0; i < cpcnt; i++) {
 		cpangv[i] = lineangv[cpidx[i]];
 	}

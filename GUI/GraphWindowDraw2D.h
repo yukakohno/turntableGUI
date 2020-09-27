@@ -7,6 +7,7 @@
 #include <FL/Fl_Double_Window.h>
 #include <FL/Fl_JPEG_Image.h>
 #include <FL/Fl_Box.h>
+#include "scandata.h"
 
 #ifndef GRAPHWINDOWCP
 #define GRAPHWINDOWCP
@@ -25,6 +26,7 @@ public:
 	Fl_JPEG_Image *jpg;
 	int disp_axis;
 	void *cwin;
+	scandata* sd;
 
 	double mt[9];
 };

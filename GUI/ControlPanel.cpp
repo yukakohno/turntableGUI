@@ -160,7 +160,7 @@ void ControlPanel::createPanel()
 			wgt_y += 25;
 
 			vs_cpangv = new Fl_Value_Slider(wgt_x, wgt_y, 200, 20, "cp angv");
-			vs_cpangv->bounds(-1, 1);	vs_cpangv->step(0.0001);	vs_cpangv->value(0);
+			vs_cpangv->bounds(0, 0.05);	vs_cpangv->step(0.0001);	vs_cpangv->value(0);
 			vs_cpangv->align(FL_ALIGN_LEFT);
 			vs_cpangv->type(FL_HORIZONTAL);
 			vs_cpangv->callback(cb_vs_cpangv, (void*)this);

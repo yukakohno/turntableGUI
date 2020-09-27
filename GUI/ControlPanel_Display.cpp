@@ -4,10 +4,10 @@ void ControlPanel::cb_cb_dispaxis(Fl_Widget *wgt, void *idx)
 {
 	ControlPanel *This = (ControlPanel *)idx;
 	GraphWindowDraw3D *gwin = This->gwin;
-	//GraphWindowDraw2D *gwin_cp = This->gwin_cp;
-	gwin->disp_axis = /*gwin_cp->disp_axis =*/ ((Fl_Check_Button*)wgt)->value();
+	GraphWindowDraw2D *gwin_cp = This->gwin_cp;
+	gwin->disp_axis = gwin_cp->disp_axis = ((Fl_Check_Button*)wgt)->value();
 	gwin->redraw();
-	//gwin_cp->redraw();
+	gwin_cp->redraw();
 }
 
 void ControlPanel::cb_cb_dispaxis2(Fl_Widget *wgt, void *idx)

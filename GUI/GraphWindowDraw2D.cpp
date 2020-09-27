@@ -25,7 +25,8 @@ GraphWindowDraw2D::GraphWindowDraw2D(int X, int Y, int W, int H) : Fl_Double_Win
 void GraphWindowDraw2D::init()
 {
 	if( jpg ){ delete jpg; }
-	jpg = new Fl_JPEG_Image( TEXFNAME );
+	//jpg = new Fl_JPEG_Image( TEXFNAME );
+	sd = NULL;
 }
 
 void GraphWindowDraw2D::draw()
@@ -36,36 +37,71 @@ void GraphWindowDraw2D::draw()
 	fl_color(FL_WHITE);
 	fl_rectf(0,0,w(),h());
 
+	int cx = w() / 2, cy = h() / 2;
+
 	if (disp_axis) {
-		fl_color(255, 0, 0);
+		fl_color(0, 0, 255);
 		fl_line_style(FL_SOLID, 3);
-		fl_line(0, 0, w(), 0);
+		fl_line(cx, cy, cx - 100, cy);
 		fl_color(0, 255, 0);
 		fl_line_style(FL_SOLID, 3);
-		fl_line(0, 0, 0, h());
-	}
-
-	// sample 2D objects
-
-	if( jpg ){
-		jpg->draw( 50, 80, jpg->w(), jpg->h()/2 );
+		fl_line(cx, cy, cx, cy - 100);
 	}
 
 	fl_color(127, 127, 127);
-	fl_rectf( 200, 250, 180, 120);
+	fl_line_style(FL_SOLID, 3);
+	fl_circle(cx, cy, 100);
 
-	fl_color(0, 255, 255);
-	fl_line_style(FL_SOLID, 2);
-	fl_line(50, 80, 200, 250);
+	if (sd) {
+		double sina[MAX_LINE_CNT], cosa[MAX_LINE_CNT], rad[MAX_LINE_CNT];
+		for (int i = 0; i < sd->linecnt; i++) {
+			sina[i] = sin(sd->lineangle[i]);
+			cosa[i] = cos(sd->lineangle[i]);
+			rad[i] = 36.0 + sd->lineangv[i] * 10000.0;
+		}
 
-	fl_color(255, 0, 255);
-	fl_line_style(FL_DOT, 2);
-	fl_line(50+jpg->w(), 80 + jpg->h()/2, 200+180, 250+120);
+		for (int i = 1; i < sd->linecnt; i++) {
 
-	fl_color(255, 255, 0);
-	fl_line_style( FL_SOLID, 3);
-	fl_circle( 150, 250, 200 );
+			int r, g, b;
+			float sec = (float)i / (float)sd->linecnt;
 
+			if (sec < 0.33) {
+				r = (int)((0.33 - sec) / 0.33 * 255);
+				g = (int)(sec / 0.33 * 255);
+				b = 0;
+			}
+			else if (sec < 0.66) {
+				r = 0;
+				g = (int)((0.66 - sec) / 0.33 * 255);
+				b = (int)((sec - 0.33) / 0.33 * 255);
+			}
+			else {
+				r = (int)((sec - 0.66) / 0.34 * 255);
+				g = 0;
+				b = (int)((1.0 - sec) / 0.34 * 255);
+			}
+			fl_color(r, g, b);
+			fl_line_style(FL_SOLID, 2);
+			fl_line(cx + rad[i - 1] * cosa[i - 1], cy - rad[i - 1] * sina[i - 1],
+				cx + rad[i] * cosa[i], cy - rad[i] * sina[i]);
+		}
+#if 0
+		fl_color(255, 0, 0);
+		fl_line_style(FL_SOLID, 2);
+		fl_line(cx + rad[sd->linecnt - 1] * cosa[sd->linecnt - 1],
+			cy - rad[sd->linecnt - 1] * sina[sd->linecnt - 1],
+			cx + rad[0] * cosa[0], cy -  rad[0] * sina[0]);
+#endif
+		fl_color(0, 0, 0);
+		fl_line_style(FL_SOLID, 3);
+		for (int i = 0; i < sd->cpcnt; i++) {
+			int idx = sd->cpidx[i];
+			double sina = sin(sd->lineangle[idx]);
+			double cosa = cos(sd->lineangle[idx]);
+			double rad = 36.0 + sd->cpangv[i] * 10000.0;
+			fl_circle(cx + rad * cosa, cy - rad * sina, 5);
+		}
+	}
 }
 
 int GraphWindowDraw2D::handle(int event)

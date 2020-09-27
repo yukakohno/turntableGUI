@@ -11,6 +11,7 @@ void ControlPanel::cb_btn_load(Fl_Widget *wgt, void *idx)
 {
 	ControlPanel *This = (ControlPanel *)idx;
 	GraphWindowDraw3D *gwin = This->gwin;
+	GraphWindowDraw2D* gwin_cp = This->gwin_cp;
 	Fl_File_Chooser *fc = This->fc;
 	char wgtlbl[256];	strcpy(wgtlbl, wgt->label());
 	int count;
@@ -37,6 +38,7 @@ void ControlPanel::cb_btn_load(Fl_Widget *wgt, void *idx)
 				This->vs_cpidx->bounds(0, This->sd->cpcnt - 1);
 				This->vs_cpangv->value( This->sd->cpangv[(int)This->vs_cpidx->value()] );
 				gwin->redraw();
+				gwin_cp->redraw();
 			}
 			if( sts==0 )
 			{
@@ -51,6 +53,7 @@ void ControlPanel::cb_btn_load(Fl_Widget *wgt, void *idx)
 		gwin->clear();
 		gwin->initObject();
 		gwin->redraw();
+		gwin_cp->redraw();
 		wgt->label("load");
 	}
 }

@@ -142,8 +142,10 @@ void GraphWindowDraw3D::draw3DCurveFold()
 	SetRTS();
 
 	if (disp_axis) {
+		glPushMatrix();
 		glScaled(0.1, 0.1, 0.1);
 		drawAxis();
+		glPopMatrix();
 	}
 
 	// set object position and rotation
